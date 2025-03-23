@@ -15,32 +15,38 @@
             background: #000;
             width: 100%;
             height: 100%;
-            overflow: hidden;
             padding: 0;
             margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .container {
             display: flex;
             width: 100%;
-            height: 100%;
+            max-width: 1600px; /* Maximum width of the entire layout */
+            height: auto;
             justify-content: center;
             align-items: center;
+            padding: 20px; /* Optional padding around the container */
         }
 
         .ad-left, .ad-right {
-            width: 20%; /* Adjust ad width as needed */
+            width: 200px; /* Fixed width for ads */
+            height: 675px; /* Same height as game for consistency */
             background-color: #333; /* Temporary color for visibility */
             color: #fff;
             text-align: center;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0 10px; /* Space between ads and game */
         }
 
         .game-wrapper {
-            width: 60%; /* Adjust game width as needed */
-            height: 80vh; /* Adjust height */
+            width: 1200px; /* Fixed width for game */
+            height: 675px; /* Fixed height for game */
             position: relative;
             background: transparent;
         }
@@ -79,7 +85,7 @@
         <!-- Left Ad Space -->
         <div class="ad-left">
             <p>Ad Space Left</p>
-            <!-- Replace with your ad script, e.g., Google AdSense -->
+            <!-- Replace with your ad script -->
         </div>
 
         <!-- Game Wrapper -->
@@ -96,37 +102,21 @@
 
     <script>
         var gameInstance = UnityLoader.instantiate("gameContainer", "Build/10MinutesTillDawnWebGL.json");
-        var scaleToFit;
-        try {
-            scaleToFit = !!JSON.parse("");
-        } catch (e) {
-            scaleToFit = true;
-        }
+        var scaleToFit = false; // Disable scaling to fit
 
         function onResize() {
             var container = document.querySelector(".game-wrapper");
             var canvas = gameInstance.Module.canvas;
-            var w, h;
 
-            if (scaleToFit) {
-                w = container.offsetWidth;
-                h = container.offsetHeight;
-
-                var r = 675 / 1200; // Aspect ratio of your game
-                if (w * r > h) {
-                    w = Math.min(w, Math.ceil(h / r));
-                }
-                h = Math.floor(w * r);
-            } else {
-                w = 1200;
-                h = 675;
-            }
+            // Fixed size rakhein, no scaling
+            var w = 1200; // Game ki fixed width
+            var h = 675;  // Game ki fixed height
 
             canvas.style.width = w + "px";
             canvas.style.height = h + "px";
             canvas.style.position = "absolute";
-            canvas.style.top = Math.floor((container.offsetHeight - h) / 2) + "px";
-            canvas.style.left = Math.floor((container.offsetWidth - w) / 2) + "px";
+            canvas.style.top = "0px";
+            canvas.style.left = "0px";
         }
 
         window.addEventListener("resize", onResize);
@@ -135,7 +125,7 @@
         document.addEventListener("click", function(e) {
             if (e.target.closest("#gameContainer")) {
                 console.log("Game interaction detected!");
-                // Add your analytics event here, e.g., gtag() for Google Analytics
+                // Add your analytics event here
             }
         });
     </script>
